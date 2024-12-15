@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post[1] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <main>
+        <div class="post-container">
+            <!-- 제목 -->
+            <div class="post-header">
+                <label for="post-title">제목:</label>
+                <input type="text" id="post-title" value="{{ post[1] }}" readonly>
+            </div>
+
+            <!-- 작성일 및 수정일 -->
+            <div class="post-meta">
+                <p>작성일: {{ post[3] }}</p>
+                <p>수정일: {{ post[4] }}</p>
+            </div>
+
+            <!-- 내용 -->
+            <div class="post-content">
+                <label for="post-content">내용:</label>
+                <textarea id="post-content" readonly>{{ post[2] }}</textarea>
+            </div>
+
+            <!-- 액션 버튼 -->
+            <div class="post-actions">
+                <a href="{{ url_for('update_post', post_id=post[0]) }}" class="btn-edit">수정</a>
+                <form method="post" action="{{ url_for('delete_post', post_id=post[0]) }}" style="display: inline;">
+                    <button type="submit" class="btn-delete">삭제</button>
+                </form>
+                <a href="{{ url_for('index') }}" class="btn-cancel">목록</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

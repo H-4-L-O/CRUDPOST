@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post[1] }} 수정</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>게시글 수정</h1>
+    </header>
+    <main>
+        <form method="post" action="{{ url_for('update_post', post_id=post[0]) }}">
+            <label for="title">제목:</label>
+            <input type="text" name="title" id="title" value="{{ post[1] }}" required>
+            <label for="content">내용:</label>
+            <textarea name="content" id="content" rows="5" required>{{ post[2] }}</textarea>
+            <button type="submit">수정</button>
+        </form>
+        <a href="{{ url_for('index') }}" class="btn">취소</a>
+    </main>
+</body>
+</html>

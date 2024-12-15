@@ -1,0 +1,73 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>게시판</h1>
+    </header>
+    <main>
+        <!-- 플래시 메시지를 데이터 속성으로 전달 -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div id="flash-messages" data-messages="{{ messages|join('||') }}"></div>
+            {% endif %}
+        {% endwith %}
+
+        <script>
+            // 플래시 메시지를 처리하여 팝업으로 표시
+            window.onload = function() {
+                const flashContainer = document.getElementById('flash-messages');
+                if (flashContainer) {
+                    const messages = flashContainer.dataset.messages.split('||');
+                    messages.forEach(message => alert(message));
+                }
+            };
+        </script>
+
+        <!-- 검색 바 및 새 글 작성 버튼 -->
+        <div class="search-bar">
+            <form method="get" action="{{ url_for('search') }}" class="search-form">
+                <input type="text" name="query" placeholder="검색어 입력" value="{{ query or '' }}">
+                <select name="type">
+                    <option value="all" {% if search_type == 'all' %}selected{% endif %}>전체</option>
+                    <option value="title" {% if search_type == 'title' %}selected{% endif %}>제목</option>
+                    <option value="content" {% if search_type == 'content' %}selected{% endif %}>내용</option>
+                </select>
+                <button type="submit">검색</button>
+            </form>
+            <a href="{{ url_for('create_post') }}" class="new-post-button">✏ 글 작성하기</a>
+        </div>
+
+        <!-- 게시글 리스트 -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                    <tr>
+                        <td class="title" data-label="제목">
+                            <a href="{{ url_for('read_post', post_id=post[0]) }}">{{ post[1] }}</a>
+                        </td>
+                        <td class="date" data-label="작성일">{{ post[3] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2" class="no-data">게시글이 없습니다.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
