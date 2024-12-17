@@ -10,10 +10,10 @@ services:  # 도커 컴포즈에서 정의된 컨테이너 서비스 목록
     ports:
       - "3308:3306"  # MySQL 호스트/컨테이너 포트 매핑
     environment:   # 환경 변수 설정
-      MYSQL_ROOT_PASSWORD: 7931
+      MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: CRUDPOST
       MYSQL_USER: halo
-      MYSQL_PASSWORD: 7931
+      MYSQL_PASSWORD: 1234
     volumes:  # 데이터 공유를 위한 볼륨 설정
       - ./MySQL_data:/var/lib/mysql  # MySQL 데이터 영속성 유지
       - ./MySQL/init.sql:/docker-entrypoint-initdb.d/init.sql  # 초기화 SQL 스크립트
